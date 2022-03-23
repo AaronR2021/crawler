@@ -22,7 +22,9 @@ db.authenticate().then(()=>{
 
 var app = express();
 
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cors());
 
 
 var index=0;
@@ -207,8 +209,8 @@ jobDeleteAndScrape.start();
 })()
 
 
-app.get('/',(req,res,next)=>{
-  res.status(200).send('all good')
+app.use('/',(req,res,next)=>{
+  res.send("Ready to Serve!!!");
 })
 
 
