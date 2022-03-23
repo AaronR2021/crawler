@@ -1,9 +1,11 @@
+require('dotenv').config();
+
 //database config
 const { Sequelize } = require('sequelize');
 //sequalize takes care of pg $ pg-hstore in the background..so dont worry.
-const db = new Sequelize("d5igsttch6bnnd","agnfbzzkabhywl","2f122db71d1f87a9b531c1bea787eeecde1374525fa767c7481c239251be74d7",
+const db = new Sequelize(process.env.DB_DATABASE,process.env.DB_USERNAME,process.env.DB_PASSWORD,
  {                      //database name   =>  username    =>    password//
-    host: 'ec2-3-222-204-187.compute-1.amazonaws.com',
+    host:process.env.DB_HOST,
     dialect: 'postgres',//name of the engine
 
     pool: {  //collection of saved reusable connections

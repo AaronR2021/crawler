@@ -34,7 +34,7 @@ var index=0;
 
 //________________________________________________________________________________________
 //use job scheduler for hour to fetch url by Id, after fetching the url post on instagram
- var job = new CronJob('1 * * * * *',async function() {
+ var job = new CronJob('* 1 * * * *',async function() {
 
   //increment index
   index++;
@@ -64,7 +64,7 @@ Jimp.read(path.resolve(__dirname,'./memes/meme.jpg'), (err, lenna) => {
   if (err){console.log(err)};
  if(lenna){
   lenna
-  .resize(Jimp.AUTO, 256) // resize
+  .resize(400, 400) // resize
   .quality(100) // set JPEG quality
   .write(path.resolve(__dirname,'./memes/meme-resize.jpg')); // save
  }
@@ -77,13 +77,12 @@ Jimp.read(path.resolve(__dirname,'./memes/meme.jpg'), (err, lenna) => {
         else{
           const publishResult = await ig.publish.photo({
             file: data, // image buffer, you also can specify image from your disk using fs
-            caption: 'Really nice photo from the internet! 💖', // nice caption (optional)
+            caption: 'Just another meme stolen from redit ")', // nice caption (optional)
           });
           console.log(publishResult)
         }
       })
 
-           
       })
       .catch((err) => console.error(err))
       image=null;
@@ -120,7 +119,6 @@ Jimp.read(path.resolve(__dirname,'./memes/meme.jpg'), (err, lenna) => {
     file: (__dirname+'/memes/abc.mp4'), // image buffer, you also can specify image from your disk using fs
     caption: 'Really nice photo from the internet! 💖', // nice caption (optional)
   })
-  console.log(publishResult,'>>>>>>PUBLICRESULT')
   
   },function(error){
     console.log(error)
@@ -134,13 +132,15 @@ Jimp.read(path.resolve(__dirname,'./memes/meme.jpg'), (err, lenna) => {
 }, null, true, 'America/Los_Angeles');
 
 //________________________________________________________________________________________
-var jobDeleteAndScrape=new CronJob("30 23 * * * *",function(){
+var jobDeleteAndScrape=new CronJob("30 20 * * * *",function(){
   //set index to 0
   index=0;
-  //delete database
-  Meme.destroy({force:true})
+  //delete/resets database every 20hrs 30min
+  Meme.destroy({where:{id:{
+    [Op.lt]:100
+  }}});
 
-  //scrape database again and populate
+//scrape database again and populate
 //scrape urls 
  (async () => {
   const browser = await puppeteer.launch();
@@ -204,17 +204,6 @@ jobDeleteAndScrape.start();
 
 
 })()
-
-
-
- 
-
-
-
-
-
-
-
 
 
 
