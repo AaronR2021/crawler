@@ -12,6 +12,7 @@ var Jimp = require('jimp');
 
 require('dotenv').config();
 
+var indexRouter = require('./routes/index.js');
 
 //connect to database
 const db=require('./config/database');
@@ -209,6 +210,9 @@ jobDeleteAndScrape.start();
 app.get('/',(req,res,next)=>{
   res.status(200).send('all good')
 })
+
+
+app.use('/', indexRouter);
 
 // error handler
 app.use(function(err, req, res, next) {
