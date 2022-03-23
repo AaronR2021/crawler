@@ -206,6 +206,9 @@ jobDeleteAndScrape.start();
 })()
 
 
+app.get('/',(req,res,next)=>{
+  res.status(200).send('all good')
+})
 
 // error handler
 app.use(function(err, req, res, next) {
